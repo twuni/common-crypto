@@ -16,22 +16,31 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 	private final BigInteger dQ;
 	private final BigInteger inverse;
 
+	public RSAPrivateKey( RSAPublicKey publicKey, BigInteger p, BigInteger q, BigInteger dP, BigInteger dQ, BigInteger inverse ) {
+		this.publicKey = publicKey;
+		this.p = p;
+		this.q = q;
+		this.dP = dP;
+		this.dQ = dQ;
+		this.inverse = inverse;
+	}
+
 	public RSAPrivateKey( final int strength, final Random random ) {
 		this( strength, random, BigInteger.valueOf( 0x10001 ) );
 	}
 
-	public RSAPrivateKey( final int strength, final Random random, final BigInteger e ) {
+	public RSAPrivateKey( final int strength, final Random random, final BigInteger exponent ) {
 
 		final int bitLength = ( strength + 1 ) / 2;
 
-		BigInteger p = generatePrime( bitLength, e, random );
+		BigInteger p = generatePrime( bitLength, exponent, random );
 		BigInteger q = ONE;
 		BigInteger n;
 
 		do {
 			p = p.max( q );
 			do {
-				q = generatePrime( strength - bitLength, e, random );
+				q = generatePrime( strength - bitLength, exponent, random );
 			} while( q.subtract( p ).abs().bitLength() < strength / 3 );
 			n = p.multiply( q );
 		} while( n.bitLength() != strength );
@@ -42,9 +51,9 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 			q = t;
 		}
 
-		BigInteger d = e.modInverse( p.subtract( ONE ).multiply( q.subtract( ONE ) ) );
+		BigInteger d = exponent.modInverse( p.subtract( ONE ).multiply( q.subtract( ONE ) ) );
 
-		this.publicKey = new RSAPublicKey( n, e );
+		this.publicKey = new RSAPublicKey( n, exponent );
 		this.p = p;
 		this.q = q;
 		this.dP = d.remainder( p.subtract( ONE ) );
