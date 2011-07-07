@@ -16,13 +16,17 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 	private final BigInteger dQ;
 	private final BigInteger inverse;
 
-	public RSAPrivateKey( RSAPublicKey publicKey, BigInteger p, BigInteger q, BigInteger dP, BigInteger dQ, BigInteger inverse ) {
-		this.publicKey = publicKey;
+	public RSAPrivateKey( BigInteger p, BigInteger q, BigInteger exponent ) {
+
+		BigInteger d = exponent.modInverse( p.subtract( ONE ).multiply( q.subtract( ONE ) ) );
+
+		this.publicKey = new RSAPublicKey( p.multiply( q ), exponent );
 		this.p = p;
 		this.q = q;
-		this.dP = dP;
-		this.dQ = dQ;
-		this.inverse = inverse;
+		this.dP = d.remainder( p.subtract( ONE ) );
+		this.dQ = d.remainder( q.subtract( ONE ) );
+		this.inverse = q.modInverse( p );
+
 	}
 
 	public RSAPrivateKey( final int strength, final Random random ) {
