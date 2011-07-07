@@ -9,12 +9,18 @@ import org.twuni.common.crypto.Transformer;
 
 public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 
+	private static final BigInteger DEFAULT_EXPONENT = BigInteger.valueOf( 0x10001 );
+
 	private final RSAPublicKey publicKey;
 	private final BigInteger p;
 	private final BigInteger q;
 	private final BigInteger dP;
 	private final BigInteger dQ;
 	private final BigInteger inverse;
+
+	public RSAPrivateKey( BigInteger p, BigInteger q ) {
+		this( p, q, DEFAULT_EXPONENT );
+	}
 
 	public RSAPrivateKey( BigInteger p, BigInteger q, BigInteger exponent ) {
 
@@ -30,7 +36,7 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 	}
 
 	public RSAPrivateKey( final int strength, final Random random ) {
-		this( strength, random, BigInteger.valueOf( 0x10001 ) );
+		this( strength, random, DEFAULT_EXPONENT );
 	}
 
 	public RSAPrivateKey( final int strength, final Random random, final BigInteger exponent ) {
