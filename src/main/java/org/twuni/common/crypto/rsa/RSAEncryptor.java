@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 import org.twuni.common.crypto.InputLengthException;
 
-public class RSAEncryptor extends RSAStreamTransformer {
+public class RSAEncryptor extends RSATransformer {
 
 	private final BigInteger modulus;
 

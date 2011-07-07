@@ -2,10 +2,10 @@ package org.twuni.common.crypto.rsa;
 
 import java.math.BigInteger;
 
-import org.twuni.common.crypto.StreamTransformer;
+import org.twuni.common.crypto.ByteArrayTransformer;
 import org.twuni.common.crypto.Transformer;
 
-abstract class RSAStreamTransformer implements StreamTransformer<BigInteger, BigInteger> {
+abstract class RSATransformer implements ByteArrayTransformer<BigInteger, BigInteger> {
 
 	protected abstract BigInteger read( byte [] buffer, int offset, int length );
 

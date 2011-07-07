@@ -1,6 +1,6 @@
 package org.twuni.common.crypto;
 
-public interface StreamTransformer<From, To> {
+public interface ByteArrayTransformer<From, To> {
 
 	public byte [] transform( Transformer<From, To> transformer, byte [] buffer );
 
