@@ -8,7 +8,7 @@ import org.junit.Test;
 public class RSAEncryptorTest {
 
 	@Test
-	public void testSomeCoolStuff() {
+	public void testSingleBlockRoundTrip() {
 
 		RSAPrivateKey privateKey = new RSAPrivateKey( 2048, new SecureRandom() );
 		RSAPublicKey publicKey = privateKey.getPublicKey();
