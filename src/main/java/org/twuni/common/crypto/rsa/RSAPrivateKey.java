@@ -3,6 +3,7 @@ package org.twuni.common.crypto.rsa;
 import static java.math.BigInteger.ONE;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Random;
 
 import org.twuni.common.crypto.Transformer;
@@ -18,10 +19,29 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 	private final BigInteger dQ;
 	private final BigInteger inverse;
 
+	/**
+	 * Convenience constructor which creates an RSA private key with the given prime numbers, using
+	 * the default exponent of 65537.
+	 * 
+	 * @param p
+	 *            The greater of the two prime numbers used in the RSA algorithm.
+	 * @param q
+	 *            The lesser of the two prime numbers used in the RSA algorithm.
+	 */
 	public RSAPrivateKey( BigInteger p, BigInteger q ) {
 		this( p, q, DEFAULT_EXPONENT );
 	}
 
+	/**
+	 * Constructs an RSA private key with the given criteria.
+	 * 
+	 * @param p
+	 *            The greater of the two prime numbers used in the RSA algorithm.
+	 * @param q
+	 *            The lesser of the two prime numbers used in the RSA algorithm.
+	 * @param exponent
+	 *            The exponent used in the RSA algorithm.
+	 */
 	public RSAPrivateKey( BigInteger p, BigInteger q, BigInteger exponent ) {
 
 		BigInteger d = exponent.modInverse( p.subtract( ONE ).multiply( q.subtract( ONE ) ) );
@@ -35,10 +55,40 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 
 	}
 
+	/**
+	 * Convenience constructor which creates a new RSA private key with the given bit length using a
+	 * new, unseeded SecureRandom instance. Same as calling
+	 * <code>new RSAPrivateKey( strength, new SecureRandom() )</code>.
+	 * 
+	 * @param strength
+	 *            The number of bits to use for this private key.
+	 */
+	public RSAPrivateKey( final int strength ) {
+		this( strength, new SecureRandom() );
+	}
+
+	/**
+	 * Convenience constructor which creates a new RSA private key with the given bit length using
+	 * the given random number generator and with the default exponent of 65537. Same as calling
+	 * <code>new RSAPrivateKey( strength, random, 0x10001 )</code>.
+	 * 
+	 * @param strength
+	 *            The number of bits to use for this private key.
+	 * @param random
+	 *            The random number generator to use for this private key.
+	 */
 	public RSAPrivateKey( final int strength, final Random random ) {
 		this( strength, random, DEFAULT_EXPONENT );
 	}
 
+	/**
+	 * @param strength
+	 *            The number of bits to use for this private key.
+	 * @param random
+	 *            The random number generator to use for this private key.
+	 * @param exponent
+	 *            The exponent to use for the RSA algorithm.
+	 */
 	public RSAPrivateKey( final int strength, final Random random, final BigInteger exponent ) {
 
 		final int bitLength = ( strength + 1 ) / 2;
@@ -76,6 +126,9 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 		return publicKey;
 	}
 
+	/**
+	 * Encrypts the given input using the Chinese-Remainder Theorem.
+	 */
 	@Override
 	public BigInteger transform( BigInteger input ) {
 
