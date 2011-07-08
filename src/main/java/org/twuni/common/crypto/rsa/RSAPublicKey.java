@@ -2,6 +2,7 @@ package org.twuni.common.crypto.rsa;
 
 import java.math.BigInteger;
 
+import org.twuni.common.crypto.Base64;
 import org.twuni.common.crypto.Transformer;
 
 public class RSAPublicKey implements Transformer<BigInteger, BigInteger> {
@@ -25,6 +26,18 @@ public class RSAPublicKey implements Transformer<BigInteger, BigInteger> {
 	@Override
 	public BigInteger transform( BigInteger input ) {
 		return input.modPow( exponent, modulus );
+	}
+
+	@Override
+	public String toString() {
+
+		StringBuilder string = new StringBuilder();
+
+		string.append( Base64.encode( modulus.toByteArray() ) ).append( "\n" );
+		string.append( Base64.encode( exponent.toByteArray() ) );
+
+		return string.toString();
+
 	}
 
 }

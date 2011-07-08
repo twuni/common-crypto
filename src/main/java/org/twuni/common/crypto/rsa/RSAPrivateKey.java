@@ -6,9 +6,10 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import org.twuni.common.crypto.Base64;
 import org.twuni.common.crypto.Transformer;
 
-public class RSAPrivateKey implements Transformer<BigInteger,BigInteger> {
+public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 
 	private static final BigInteger DEFAULT_EXPONENT = BigInteger.valueOf( 0x10001 );
 
@@ -154,6 +155,19 @@ public class RSAPrivateKey implements Transformer<BigInteger,BigInteger> {
 			p = BigInteger.probablePrime( bitLength, random );
 		} while( p.mod( e ).equals( ONE ) || !e.gcd( p.subtract( ONE ) ).equals( ONE ) );
 		return p;
+	}
+
+	@Override
+	public String toString() {
+
+		StringBuilder string = new StringBuilder();
+
+		string.append( Base64.encode( p.toByteArray() ) ).append( "\n" );
+		string.append( Base64.encode( q.toByteArray() ) ).append( "\n" );
+		string.append( Base64.encode( publicKey.getExponent().toByteArray() ) );
+
+		return string.toString();
+
 	}
 
 }
