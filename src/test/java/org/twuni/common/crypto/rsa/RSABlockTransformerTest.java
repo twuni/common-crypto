@@ -1,6 +1,7 @@
 package org.twuni.common.crypto.rsa;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.twuni.common.crypto.InputLengthException;
 
@@ -8,21 +9,28 @@ public class RSABlockTransformerTest {
 
 	private static final String EXPECTED = "This is a good test. I approve of it.";
 
+	private RSAPrivateKeyGenerator keygen;
+
+	@Before
+	public void setUp() {
+		keygen = new RSAPrivateKeyGenerator();
+	}
+
 	@Test
 	public void testSingleBlockRoundTripSucceedsWhenInputLengthMatchesBlockSize() {
-		assertRoundTrip( new RSAPrivateKey( EXPECTED.length() * 8 ) );
+		assertRoundTrip( keygen.generate( EXPECTED.length() * 8 ) );
 	}
 
 	@Test( expected = InputLengthException.class )
 	public void testSingleBlockEncryptionFailsWhenInputLengthIsMoreThanBlockSize() {
-		assertRoundTrip( new RSAPrivateKey( ( EXPECTED.length() - 1 ) * 8 ) );
+		assertRoundTrip( keygen.generate( ( EXPECTED.length() - 1 ) * 8 ) );
 	}
 
 	@Test
 	public void testSingleBlockRoundTripSucceedsWhenInputLengthIsLessThanBlockSize() {
-		assertRoundTrip( new RSAPrivateKey( ( EXPECTED.length() + 1 ) * 8 ) );
+		assertRoundTrip( keygen.generate( ( EXPECTED.length() + 1 ) * 8 ) );
 	}
-	
+
 	private void assertRoundTrip( RSAPrivateKey privateKey ) {
 		assertRoundTripFromPrivateKey( privateKey );
 		assertRoundTripFromPublicKey( privateKey );

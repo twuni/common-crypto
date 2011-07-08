@@ -15,7 +15,7 @@ public class RSATransformerTest {
 
 	@Before
 	public void setUp() {
-		RSAPrivateKey privateKey = new RSAPrivateKey( 512 );
+		RSAPrivateKey privateKey = new RSAPrivateKeyGenerator().generate( 512 );
 		RSAPublicKey publicKey = privateKey.getPublicKey();
 		trusted = new RSATransformer( privateKey );
 		untrusted = new RSATransformer( publicKey );
