@@ -2,6 +2,8 @@ package org.twuni.common.crypto;
 
 /**
  * Satisfies RFC-4648 for base-64 encoding of binary data.
+ * 
+ * @see <a href="http://tools.ietf.org/html/rfc4648#section-4">RFC-4648</a>
  */
 public class Base64 {
 
