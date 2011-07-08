@@ -10,15 +10,15 @@ import org.junit.Test;
 
 public class RSATransformerTest {
 
-	private RSATransformer encryptor;
-	private RSATransformer decryptor;
+	private RSATransformer trusted;
+	private RSATransformer untrusted;
 
 	@Before
 	public void setUp() {
 		RSAPrivateKey privateKey = new RSAPrivateKey( 512 );
 		RSAPublicKey publicKey = privateKey.getPublicKey();
-		encryptor = new RSATransformer( privateKey );
-		decryptor = new RSATransformer( publicKey );
+		trusted = new RSATransformer( privateKey );
+		untrusted = new RSATransformer( publicKey );
 	}
 
 	@Test
@@ -32,11 +32,11 @@ public class RSATransformerTest {
 	}
 
 	private byte [] decrypt( byte [] message ) throws IOException {
-		return decryptor.decrypt( message );
+		return untrusted.decrypt( message );
 	}
 
 	private byte [] encrypt( byte [] message ) throws IOException {
-		return encryptor.encrypt( message );
+		return trusted.encrypt( message );
 	}
 
 	private String generateRandomString( int length ) {
