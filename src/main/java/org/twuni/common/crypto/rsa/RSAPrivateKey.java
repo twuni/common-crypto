@@ -128,6 +128,15 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 	}
 
 	@Override
+	public boolean equals( Object object ) {
+		if( object instanceof RSAPrivateKey ) {
+			RSAPrivateKey key = (RSAPrivateKey) object;
+			return p.equals( key.p ) && q.equals( key.q ) && publicKey.equals( key.publicKey );
+		}
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return serialize();
 	}

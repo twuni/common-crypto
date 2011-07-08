@@ -71,6 +71,15 @@ public class RSAPublicKey implements Transformer<BigInteger, BigInteger> {
 	}
 
 	@Override
+	public boolean equals( Object object ) {
+		if( object instanceof RSAPublicKey ) {
+			RSAPublicKey key = (RSAPublicKey) object;
+			return modulus.equals( key.modulus ) && exponent.equals( key.exponent );
+		}
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return serialize();
 	}
