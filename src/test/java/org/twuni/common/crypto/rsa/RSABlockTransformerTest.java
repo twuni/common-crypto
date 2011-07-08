@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.twuni.common.crypto.InputLengthException;
 
-public class RSABlockEncryptorTest {
+public class RSABlockTransformerTest {
 
 	private static final String EXPECTED = "This is a good test. I approve of it.";
 

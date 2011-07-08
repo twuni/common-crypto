@@ -58,13 +58,6 @@ public class Base64 {
 			    ALPHABET.indexOf( message.charAt( i + 3 ) )
 			};
 
-			if( b[3] < 0 ) {
-				b[3] = 0;
-				if( b[2] < 0 ) {
-					b[2] = 0;
-				}
-			}
-
 			if( j < decoded.length ) {
 				decoded[j++] = (byte) ( ( ( 0x3F & b[0] ) << 2 ) | ( ( 0x30 & b[1] ) >>> 4 ) );
 				if( j < decoded.length ) {
@@ -83,7 +76,7 @@ public class Base64 {
 
 	private static byte [] createDecodingBuffer( String message ) {
 
-		int length = message.indexOf( '=' );
+		int length = message.indexOf( PADDING );
 
 		if( length < 0 ) {
 			length = message.length();
