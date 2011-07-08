@@ -10,6 +10,12 @@ public class Base64 {
 	private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 	private static final String PADDING = "=";
 
+	public static String encode( byte [] message, int offset, int length ) {
+		byte [] trimmed = new byte [length - offset];
+		System.arraycopy( message, offset, trimmed, 0, length );
+		return encode( trimmed );
+	}
+
 	public static String encode( byte [] message ) {
 
 		int padding = ( 3 - ( message.length % 3 ) ) % 3;
