@@ -22,8 +22,9 @@ public class RSAPrivateKeyGenerator {
 
 	/**
 	 * Convenience method which creates a new RSA private key with the given bit length using the
-	 * given random number generator and with the default exponent of 65537. Same as calling
-	 * <code>new RSAPrivateKey( strength, random, 0x10001 )</code>.
+	 * given random number generator and with the default exponent of
+	 * {@link RSAPrivateKey#DEFAULT_EXPONENT}. Same as calling
+	 * <code>new RSAPrivateKey( strength, random, {@link RSAPrivateKey#DEFAULT_EXPONENT} )</code>.
 	 * 
 	 * @param strength
 	 *            The number of bits to use for the generated private key.
