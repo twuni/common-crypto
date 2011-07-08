@@ -1,24 +1,35 @@
 package org.twuni.common.crypto.rsa;
 
+import java.io.IOException;
 import java.math.BigInteger;
 
 import org.twuni.common.crypto.ByteArrayTransformer;
 import org.twuni.common.crypto.Transformer;
 
-abstract class RSATransformer implements ByteArrayTransformer<BigInteger, BigInteger> {
+public class RSATransformer extends ByteArrayTransformer<BigInteger, BigInteger> {
 
-	protected abstract BigInteger read( byte [] buffer, int offset, int length );
+	private final RSABlockEncryptor encryptor;
+	private final RSABlockDecryptor decryptor;
+	private final Transformer<BigInteger, BigInteger> key;
 
-	protected abstract byte [] write( BigInteger result );
-
-	@Override
-	public byte [] transform( Transformer<BigInteger, BigInteger> transformer, byte [] buffer ) {
-		return transform( transformer, buffer, 0, buffer.length );
+	public RSATransformer( RSAPrivateKey key ) {
+		this.encryptor = new RSABlockEncryptor( key.getPublicKey().getModulus() );
+		this.decryptor = new RSABlockDecryptor( key.getPublicKey().getModulus() );
+		this.key = key;
 	}
 
-	@Override
-	public byte [] transform( Transformer<BigInteger, BigInteger> transformer, byte [] buffer, int offset, int length ) {
-		return write( transformer.transform( read( buffer, offset, length ) ) );
+	public RSATransformer( RSAPublicKey key ) {
+		this.encryptor = new RSABlockEncryptor( key.getModulus() );
+		this.decryptor = new RSABlockDecryptor( key.getModulus() );
+		this.key = key;
+	}
+
+	public byte [] encrypt( byte [] message ) throws IOException {
+		return transform( encryptor, key, message );
+	}
+
+	public byte [] decrypt( byte [] message ) throws IOException {
+		return transform( decryptor, key, message );
 	}
 
 }

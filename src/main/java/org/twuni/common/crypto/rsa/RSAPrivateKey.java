@@ -8,7 +8,7 @@ import java.util.Random;
 
 import org.twuni.common.crypto.Transformer;
 
-public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
+public class RSAPrivateKey implements Transformer<BigInteger,BigInteger> {
 
 	private static final BigInteger DEFAULT_EXPONENT = BigInteger.valueOf( 0x10001 );
 

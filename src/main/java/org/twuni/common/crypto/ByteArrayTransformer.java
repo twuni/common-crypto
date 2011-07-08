@@ -1,9 +1,25 @@
 package org.twuni.common.crypto;
 
-public interface ByteArrayTransformer<From, To> {
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
-	public byte [] transform( Transformer<From, To> transformer, byte [] buffer );
+public class ByteArrayTransformer<From, To> {
 
-	public byte [] transform( Transformer<From, To> transformer, byte [] buffer, int offset, int length );
+	public byte [] transform( BlockTransformer<From, To> transformer, Transformer<From, To> key, byte [] message ) throws IOException {
+
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+		int blockSize = transformer.getInputBlockSize();
+		int numberOfBlocks = (int) Math.ceil( (double) message.length / (double) blockSize );
+
+		for( int i = 0; i < numberOfBlocks; i++ ) {
+			int offset = i * blockSize;
+			int length = offset + blockSize > message.length ? message.length - offset : blockSize;
+			buffer.write( transformer.transform( key, message, offset, length ) );
+		}
+
+		return buffer.toByteArray();
+
+	}
 
 }

@@ -2,21 +2,24 @@ package org.twuni.common.crypto.rsa;
 
 import java.math.BigInteger;
 
+import org.twuni.common.crypto.BlockTransformer;
 import org.twuni.common.crypto.InputLengthException;
 
-public class RSAEncryptor extends RSATransformer {
+public class RSABlockEncryptor extends BlockTransformer<BigInteger, BigInteger> {
 
 	private final BigInteger modulus;
 
-	public RSAEncryptor( BigInteger modulus ) {
+	public RSABlockEncryptor( BigInteger modulus ) {
 		this.modulus = modulus;
 	}
 
-	private int getInputBlockSize() {
+	@Override
+	public int getInputBlockSize() {
 		return getOutputBlockSize() - 1;
 	}
 
-	private int getOutputBlockSize() {
+	@Override
+	public int getOutputBlockSize() {
 		return ( modulus.bitLength() + 7 ) / 8;
 	}
 
