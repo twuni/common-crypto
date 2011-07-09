@@ -25,11 +25,19 @@ public class RSATransformer extends ByteArrayTransformer<BigInteger, BigInteger>
 	}
 
 	public byte [] encrypt( byte [] message ) throws IOException {
-		return transform( encryptor, key, message );
+		return encrypt( message, 0, message.length );
+	}
+
+	public byte [] encrypt( byte [] message, int offset, int length ) throws IOException {
+		return transform( encryptor, key, message, offset, length );
 	}
 
 	public byte [] decrypt( byte [] message ) throws IOException {
-		return transform( decryptor, key, message );
+		return decrypt( message, 0, message.length );
+	}
+
+	public byte [] decrypt( byte [] message, int offset, int length ) throws IOException {
+		return transform( decryptor, key, message, offset, length );
 	}
 
 }

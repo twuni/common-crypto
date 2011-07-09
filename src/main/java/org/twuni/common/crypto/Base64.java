@@ -1,5 +1,7 @@
 package org.twuni.common.crypto;
 
+import java.util.Arrays;
+
 /**
  * Satisfies RFC-4648 for base-64 encoding of binary data.
  * 
@@ -11,9 +13,7 @@ public class Base64 {
 	private static final String PADDING = "=";
 
 	public static String encode( byte [] message, int offset, int length ) {
-		byte [] trimmed = new byte [length - offset];
-		System.arraycopy( message, offset, trimmed, 0, length );
-		return encode( trimmed );
+		return encode( Arrays.copyOfRange( message, offset, length ) );
 	}
 
 	public static String encode( byte [] message ) {

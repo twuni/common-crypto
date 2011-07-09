@@ -2,8 +2,13 @@ package org.twuni.common.crypto;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class ByteArrayTransformer<From, To> {
+
+	public byte [] transform( BlockTransformer<From, To> transformer, Transformer<From, To> key, byte [] message, int offset, int length ) throws IOException {
+		return transform( transformer, key, Arrays.copyOfRange( message, offset, length ) );
+	}
 
 	public byte [] transform( BlockTransformer<From, To> transformer, Transformer<From, To> key, byte [] message ) throws IOException {
 
