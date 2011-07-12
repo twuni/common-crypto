@@ -8,53 +8,57 @@ import java.util.Random;
 
 public class RSAPrivateKeyGenerator {
 
+	private final Random random;
+
 	/**
-	 * Convenience method which creates a new RSA private key with the given bit length using a new,
-	 * unseeded SecureRandom instance. Same as calling
-	 * <code>new RSAPrivateKey( strength, new SecureRandom() )</code>.
+	 * Convenience constructor which uses a new {@link SecureRandom} instance to generate private
+	 * keys. Same as calling <code>new RSAPrivateKeyGenerator( new SecureRandom() )</code>.
+	 */
+	public RSAPrivateKeyGenerator() {
+		this( new SecureRandom() );
+	}
+
+	/**
+	 * @param random
+	 *            The random number generator to use for generated private keys.
+	 */
+	public RSAPrivateKeyGenerator( Random random ) {
+		this.random = random;
+	}
+
+	/**
+	 * Convenience method which creates a new RSA private key with the given bit length using the
+	 * default exponent of {@link RSAPrivateKey#DEFAULT_EXPONENT}. Same as calling
+	 * <code>generate( strength, {@link RSAPrivateKey#DEFAULT_EXPONENT} )</code>.
 	 * 
 	 * @param strength
 	 *            The number of bits to use for the generated private key.
 	 */
 	public RSAPrivateKey generate( final int strength ) {
-		return generate( strength, new SecureRandom() );
+		return generate( strength, RSAPrivateKey.DEFAULT_EXPONENT );
 	}
 
 	/**
-	 * Convenience method which creates a new RSA private key with the given bit length using the
-	 * given random number generator and with the default exponent of
-	 * {@link RSAPrivateKey#DEFAULT_EXPONENT}. Same as calling
-	 * <code>new RSAPrivateKey( strength, random, {@link RSAPrivateKey#DEFAULT_EXPONENT} )</code>.
+	 * Generates a new private key with a length of <code>strength</code> bits using the given
+	 * exponent.
 	 * 
 	 * @param strength
 	 *            The number of bits to use for the generated private key.
-	 * @param random
-	 *            The random number generator to use for the generated private key.
-	 */
-	public RSAPrivateKey generate( final int strength, final Random random ) {
-		return generate( strength, random, RSAPrivateKey.DEFAULT_EXPONENT );
-	}
-
-	/**
-	 * @param strength
-	 *            The number of bits to use for the generated private key.
-	 * @param random
-	 *            The random number generator to use for the generated private key.
 	 * @param exponent
 	 *            The exponent to use for the generated private key.
 	 */
-	public RSAPrivateKey generate( final int strength, final Random random, final BigInteger exponent ) {
+	public RSAPrivateKey generate( final int strength, final BigInteger exponent ) {
 
 		final int bitLength = ( strength + 1 ) / 2;
 
-		BigInteger p = generatePrime( bitLength, exponent, random );
+		BigInteger p = generatePrime( bitLength, exponent );
 		BigInteger q = ONE;
 		BigInteger n;
 
 		do {
 			p = p.max( q );
 			do {
-				q = generatePrime( strength - bitLength, exponent, random );
+				q = generatePrime( strength - bitLength, exponent );
 			} while( q.subtract( p ).abs().bitLength() < strength / 3 );
 			n = p.multiply( q );
 		} while( n.bitLength() != strength );
@@ -69,7 +73,7 @@ public class RSAPrivateKeyGenerator {
 
 	}
 
-	private BigInteger generatePrime( int bitLength, BigInteger e, Random random ) {
+	private BigInteger generatePrime( int bitLength, BigInteger e ) {
 		BigInteger prime;
 		do {
 			prime = BigInteger.probablePrime( bitLength, random );

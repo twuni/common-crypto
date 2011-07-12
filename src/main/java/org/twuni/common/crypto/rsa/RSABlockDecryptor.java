@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import org.twuni.common.crypto.BlockTransformer;
 import org.twuni.common.crypto.InputLengthException;
 
-class RSABlockDecryptor extends BlockTransformer<BigInteger,BigInteger> {
+class RSABlockDecryptor extends BlockTransformer<BigInteger, BigInteger> {
 
 	private final BigInteger modulus;
 

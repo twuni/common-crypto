@@ -31,6 +31,16 @@ public class RSATransformerTest {
 
 	}
 
+	@Test
+	public void testMultipleBlockRoundTripByteArray() throws IOException {
+
+		byte [] expected = generateRandomBytes( 4096 );
+		byte [] actual = decrypt( encrypt( expected ) );
+
+		Assert.assertArrayEquals( expected, actual );
+
+	}
+
 	private byte [] decrypt( byte [] message ) throws IOException {
 		return untrusted.decrypt( message );
 	}
@@ -40,10 +50,14 @@ public class RSATransformerTest {
 	}
 
 	private String generateRandomString( int length ) {
+		return new BigInteger( generateRandomBytes( length ) ).toString( 16 );
+	}
+
+	private byte [] generateRandomBytes( int length ) {
 		Random random = new Random();
 		byte [] buffer = new byte [length];
 		random.nextBytes( buffer );
-		return new BigInteger( buffer ).toString( 16 );
+		return buffer;
 	}
 
 }
