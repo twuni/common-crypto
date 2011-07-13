@@ -3,13 +3,27 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.twuni.common</groupId>
-	<artifactId>cryptography</artifactId>
+	<groupId>org.twuni</groupId>
+	<artifactId>common-crypto</artifactId>
 	<version>0.1.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	
+
 	<name>Cryptography API</name>
-	<description>Contains an API for cryptographic functions such as encrypting, decrypting, and signing messages.</description>
+	<description>This library supports cryptographic functions such as encrypting, decrypting, and signing messages.</description>
+
+	<scm>
+		<developerConnection>scm:git:ssh:git@github.com:twuni/cryptography.git</developerConnection>
+		<connection>scm:git:ssh:git@github.com:twuni/cryptography.git</connection>
+		<url>scm:git:https://twuni@github.com/twuni/cryptography.git</url>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<build>
 
