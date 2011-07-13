@@ -5,11 +5,11 @@ import java.math.BigInteger;
 import org.twuni.common.crypto.BlockTransformer;
 import org.twuni.common.crypto.InputLengthException;
 
-class RSABlockDecryptor extends BlockTransformer<BigInteger, BigInteger> {
+class BlockDecryptor extends BlockTransformer<BigInteger, BigInteger> {
 
 	private final BigInteger modulus;
 
-	public RSABlockDecryptor( BigInteger modulus ) {
+	public BlockDecryptor( BigInteger modulus ) {
 		this.modulus = modulus;
 	}
 

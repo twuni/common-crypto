@@ -5,17 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This generator should *NOT* be used in practice! It generates a private key for a given public
- * key, demonstrating the vulnerability of the key-pair. If the {@link #generate(RSAPublicKey)}
- * method is successfully executed, then the generated private key <strong>should not</strong> be
- * used in practice.
+ * This should *NOT* be used in practice! It attempts to derive a private key from a given public
+ * key.
  */
-public class RSAReversePrivateKeyGenerator {
+public class KeyDeriver {
 
 	/**
-	 * Reverse-engineers the given public key to find its associated private key.
+	 * Reverse-engineers the given RSA public key to find its associated private key.
 	 */
-	public RSAPrivateKey generate( RSAPublicKey publicKey ) {
+	public PrivateKey derive( PublicKey publicKey ) {
 
 		BigInteger p, q;
 
@@ -30,7 +28,7 @@ public class RSAReversePrivateKeyGenerator {
 			q = t;
 		}
 
-		return new RSAPrivateKey( p, q, publicKey.getExponent() );
+		return new PrivateKey( p, q, publicKey.getExponent() );
 
 	}
 

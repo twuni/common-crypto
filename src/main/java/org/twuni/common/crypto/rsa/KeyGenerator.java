@@ -6,15 +6,15 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
-public class RSAPrivateKeyGenerator {
+public class KeyGenerator {
 
 	private final Random random;
 
 	/**
 	 * Convenience constructor which uses a new {@link SecureRandom} instance to generate private
-	 * keys. Same as calling <code>new RSAPrivateKeyGenerator( new SecureRandom() )</code>.
+	 * keys. Same as calling <code>new KeyGenerator( new SecureRandom() )</code>.
 	 */
-	public RSAPrivateKeyGenerator() {
+	public KeyGenerator() {
 		this( new SecureRandom() );
 	}
 
@@ -22,20 +22,20 @@ public class RSAPrivateKeyGenerator {
 	 * @param random
 	 *            The random number generator to use for generated private keys.
 	 */
-	public RSAPrivateKeyGenerator( Random random ) {
+	public KeyGenerator( Random random ) {
 		this.random = random;
 	}
 
 	/**
 	 * Convenience method which creates a new RSA private key with the given bit length using the
-	 * default exponent of {@link RSAPrivateKey#DEFAULT_EXPONENT}. Same as calling
-	 * <code>generate( strength, {@link RSAPrivateKey#DEFAULT_EXPONENT} )</code>.
+	 * default exponent of {@link PrivateKey#DEFAULT_EXPONENT}. Same as calling
+	 * <code>generate( strength, {@link PrivateKey#DEFAULT_EXPONENT} )</code>.
 	 * 
 	 * @param strength
 	 *            The number of bits to use for the generated private key.
 	 */
-	public RSAPrivateKey generate( final int strength ) {
-		return generate( strength, RSAPrivateKey.DEFAULT_EXPONENT );
+	public PrivateKey generate( final int strength ) {
+		return generate( strength, PrivateKey.DEFAULT_EXPONENT );
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class RSAPrivateKeyGenerator {
 	 * @param exponent
 	 *            The exponent to use for the generated private key.
 	 */
-	public RSAPrivateKey generate( final int strength, final BigInteger exponent ) {
+	public PrivateKey generate( final int strength, final BigInteger exponent ) {
 
 		final int bitLength = ( strength + 1 ) / 2;
 
@@ -69,7 +69,7 @@ public class RSAPrivateKeyGenerator {
 			q = t;
 		}
 
-		return new RSAPrivateKey( p, q, exponent );
+		return new PrivateKey( p, q, exponent );
 
 	}
 

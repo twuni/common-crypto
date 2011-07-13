@@ -7,7 +7,7 @@ import java.math.BigInteger;
 import org.twuni.common.crypto.Base64;
 import org.twuni.common.crypto.Transformer;
 
-public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
+public class PrivateKey implements Transformer<BigInteger, BigInteger> {
 
 	/**
 	 * An exponent commonly used in practice due to its being sufficiently large to avoid small
@@ -22,7 +22,7 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 	private final BigInteger dP;
 	private final BigInteger dQ;
 	private final BigInteger inverse;
-	private final RSAPublicKey publicKey;
+	private final PublicKey publicKey;
 
 	/**
 	 * Convenience constructor which creates an RSA private key with the given prime numbers, using
@@ -33,7 +33,7 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 	 * @param q
 	 *            The lesser of the two prime numbers used in the RSA algorithm.
 	 */
-	public RSAPrivateKey( BigInteger p, BigInteger q ) {
+	public PrivateKey( BigInteger p, BigInteger q ) {
 		this( p, q, DEFAULT_EXPONENT );
 	}
 
@@ -47,20 +47,20 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 	 * @param exponent
 	 *            The exponent used in the RSA algorithm.
 	 */
-	public RSAPrivateKey( BigInteger p, BigInteger q, BigInteger exponent ) {
+	public PrivateKey( BigInteger p, BigInteger q, BigInteger exponent ) {
 
 		BigInteger d = exponent.modInverse( p.subtract( ONE ).multiply( q.subtract( ONE ) ) );
 
 		this.p = p;
 		this.q = q;
-		this.publicKey = new RSAPublicKey( p.multiply( q ), exponent );
+		this.publicKey = new PublicKey( p.multiply( q ), exponent );
 		this.dP = d.remainder( p.subtract( ONE ) );
 		this.dQ = d.remainder( q.subtract( ONE ) );
 		this.inverse = q.modInverse( p );
 
 	}
 
-	public RSAPublicKey getPublicKey() {
+	public PublicKey getPublicKey() {
 		return publicKey;
 	}
 
@@ -99,8 +99,8 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 
 		StringBuilder string = new StringBuilder();
 
-		string.append( Base64.encode( p.toByteArray() ) ).append( "\n" );
-		string.append( Base64.encode( q.toByteArray() ) ).append( "\n" );
+		string.append( Base64.encode( p.toByteArray() ) ).append( "|" );
+		string.append( Base64.encode( q.toByteArray() ) ).append( "|" );
 		string.append( Base64.encode( publicKey.getExponent().toByteArray() ) );
 
 		return string.toString();
@@ -115,22 +115,22 @@ public class RSAPrivateKey implements Transformer<BigInteger, BigInteger> {
 	 *            The base64-encoded serialization of the private key, obtained by calling
 	 *            {@link #serialize()}.
 	 */
-	public static RSAPrivateKey deserialize( String serial ) {
+	public static PrivateKey deserialize( String serial ) {
 
-		String [] args = serial.split( "\n" );
+		String [] args = serial.split( "|" );
 
 		BigInteger p = new BigInteger( Base64.decode( args[0] ) );
 		BigInteger q = new BigInteger( Base64.decode( args[1] ) );
 		BigInteger exponent = new BigInteger( Base64.decode( args[2] ) );
 
-		return new RSAPrivateKey( p, q, exponent );
+		return new PrivateKey( p, q, exponent );
 
 	}
 
 	@Override
 	public boolean equals( Object object ) {
-		if( object instanceof RSAPrivateKey ) {
-			RSAPrivateKey key = (RSAPrivateKey) object;
+		if( object instanceof PrivateKey ) {
+			PrivateKey key = (PrivateKey) object;
 			return p.equals( key.p ) && q.equals( key.q ) && publicKey.equals( key.publicKey );
 		}
 		return false;

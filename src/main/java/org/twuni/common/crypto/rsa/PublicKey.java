@@ -5,12 +5,12 @@ import java.math.BigInteger;
 import org.twuni.common.crypto.Base64;
 import org.twuni.common.crypto.Transformer;
 
-public class RSAPublicKey implements Transformer<BigInteger, BigInteger> {
+public class PublicKey implements Transformer<BigInteger, BigInteger> {
 
 	private final BigInteger modulus;
 	private final BigInteger exponent;
 
-	public RSAPublicKey( BigInteger modulus, BigInteger exponent ) {
+	public PublicKey( BigInteger modulus, BigInteger exponent ) {
 		this.modulus = modulus;
 		this.exponent = exponent;
 	}
@@ -44,7 +44,7 @@ public class RSAPublicKey implements Transformer<BigInteger, BigInteger> {
 
 		StringBuilder string = new StringBuilder();
 
-		string.append( Base64.encode( modulus.toByteArray() ) ).append( "\n" );
+		string.append( Base64.encode( modulus.toByteArray() ) ).append( "|" );
 		string.append( Base64.encode( exponent.toByteArray() ) );
 
 		return string.toString();
@@ -59,21 +59,21 @@ public class RSAPublicKey implements Transformer<BigInteger, BigInteger> {
 	 *            The base64-encoded serialization of the public key, obtained by calling
 	 *            {@link #serialize()}.
 	 */
-	public static RSAPublicKey deserialize( String serial ) {
+	public static PublicKey deserialize( String serial ) {
 
-		String [] args = serial.split( "\n" );
+		String [] args = serial.split( "|" );
 
 		BigInteger modulus = new BigInteger( Base64.decode( args[0] ) );
 		BigInteger exponent = new BigInteger( Base64.decode( args[1] ) );
 
-		return new RSAPublicKey( modulus, exponent );
+		return new PublicKey( modulus, exponent );
 
 	}
 
 	@Override
 	public boolean equals( Object object ) {
-		if( object instanceof RSAPublicKey ) {
-			RSAPublicKey key = (RSAPublicKey) object;
+		if( object instanceof PublicKey ) {
+			PublicKey key = (PublicKey) object;
 			return modulus.equals( key.modulus ) && exponent.equals( key.exponent );
 		}
 		return false;

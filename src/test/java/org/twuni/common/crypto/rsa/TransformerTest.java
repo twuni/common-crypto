@@ -8,17 +8,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RSATransformerTest {
+public class TransformerTest {
 
-	private RSATransformer trusted;
-	private RSATransformer untrusted;
+	private static final String EXPECTED = "This is a great place to sit and watch the stars on a moonless night. Have you ever considered gazing upon such celestial magnificence while resting your weary head on a pillow made of glass? No, of course you haven't.";
+
+	private Transformer trusted;
+	private Transformer untrusted;
 
 	@Before
 	public void setUp() {
-		RSAPrivateKey privateKey = new RSAPrivateKeyGenerator().generate( 512 );
-		RSAPublicKey publicKey = privateKey.getPublicKey();
-		trusted = new RSATransformer( privateKey );
-		untrusted = new RSATransformer( publicKey );
+		PrivateKey privateKey = new KeyGenerator().generate( 512 );
+		PublicKey publicKey = privateKey.getPublicKey();
+		trusted = new Transformer( privateKey );
+		untrusted = new Transformer( publicKey );
 	}
 
 	@Test
