@@ -117,7 +117,7 @@ public class PrivateKey implements Transformer<BigInteger, BigInteger> {
 	 */
 	public static PrivateKey deserialize( String serial ) {
 
-		String [] args = serial.split( "|" );
+		String [] args = serial.split( "\\|" );
 
 		BigInteger p = new BigInteger( Base64.decode( args[0] ) );
 		BigInteger q = new BigInteger( Base64.decode( args[1] ) );

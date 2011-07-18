@@ -61,7 +61,7 @@ public class PublicKey implements Transformer<BigInteger, BigInteger> {
 	 */
 	public static PublicKey deserialize( String serial ) {
 
-		String [] args = serial.split( "|" );
+		String [] args = serial.split( "\\|" );
 
 		BigInteger modulus = new BigInteger( Base64.decode( args[0] ) );
 		BigInteger exponent = new BigInteger( Base64.decode( args[1] ) );
