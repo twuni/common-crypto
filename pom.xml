@@ -12,9 +12,9 @@
 	<description>This library supports cryptographic functions such as encrypting, decrypting, and signing messages.</description>
 
 	<scm>
-		<developerConnection>scm:git:ssh:git@github.com:twuni/cryptography.git</developerConnection>
-		<connection>scm:git:ssh:git@github.com:twuni/cryptography.git</connection>
-		<url>scm:git:https://twuni@github.com/twuni/cryptography.git</url>
+		<developerConnection>scm:git:ssh:git@github.com:twuni/common-crypto.git</developerConnection>
+		<connection>scm:git:ssh:git@github.com:twuni/common-crypto.git</connection>
+		<url>scm:git:https://twuni@github.com/twuni/common-crypto.git</url>
 	</scm>
 
 	<developers>
