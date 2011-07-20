@@ -7,6 +7,9 @@ import java.util.Arrays;
 public class ByteArrayTransformer<From, To> {
 
 	public byte [] transform( BlockTransformer<From, To> transformer, Transformer<From, To> key, byte [] message, int offset, int length ) throws IOException {
+		if( offset == 0 || length == message.length ) {
+			return transform( transformer, key, message );
+		}
 		return transform( transformer, key, Arrays.copyOfRange( message, offset, length ) );
 	}
 
@@ -15,7 +18,7 @@ public class ByteArrayTransformer<From, To> {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
 		int blockSize = transformer.getInputBlockSize();
-		int numberOfBlocks = (int) Math.ceil( (double) message.length / (double) blockSize );
+		int numberOfBlocks = (int) Math.ceil( message.length / (double) blockSize );
 
 		for( int i = 0; i < numberOfBlocks; i++ ) {
 			int offset = i * blockSize;
