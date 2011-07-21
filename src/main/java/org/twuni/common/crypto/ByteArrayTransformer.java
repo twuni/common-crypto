@@ -23,7 +23,8 @@ public class ByteArrayTransformer<From, To> {
 		for( int i = 0; i < numberOfBlocks; i++ ) {
 			int offset = i * blockSize;
 			int length = offset + blockSize > message.length ? message.length - offset : blockSize;
-			buffer.write( transformer.transform( key, message, offset, length ) );
+			byte [] block = transformer.transform( key, message, offset, length );
+			buffer.write( block );
 		}
 
 		return buffer.toByteArray();
