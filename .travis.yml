@@ -1,0 +1,7 @@
+language: java
+script: mvn clean package
+notifications:
+  email: false
+branches:
+  only:
+    - master
