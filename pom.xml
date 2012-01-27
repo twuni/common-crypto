@@ -3,12 +3,6 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
-
 	<groupId>org.twuni</groupId>
 	<artifactId>common-crypto</artifactId>
 	<version>0.1.4-SNAPSHOT</version>
@@ -43,6 +37,54 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
+        <distributionManagement>
+                <repository>
+                        <uniqueVersion>false</uniqueVersion>
+                        <id>twuni-releases</id>
+                        <name>Twuni Software Releases</name>
+                        <url>http://maven.twuni.org/libs-release-local</url>
+                        <layout>default</layout>
+                </repository>
+                <snapshotRepository>
+                        <uniqueVersion>true</uniqueVersion>
+                        <id>twuni-snapshots</id>
+                        <name>Twuni Software Snapshots</name>
+                        <url>http://maven.twuni.org/libs-snapshot-local</url>
+                        <layout>default</layout>
+                </snapshotRepository>
+        </distributionManagement>
+
+        <repositories>
+                <repository>
+                        <releases>
+                                <enabled>true</enabled>
+                                <updatePolicy>never</updatePolicy>
+                                <checksumPolicy>warn</checksumPolicy>
+                        </releases>
+                        <snapshots>
+                                <enabled>false</enabled>
+                        </snapshots>
+                        <id>twuni-releases</id>
+                        <name>Twuni Software Releases</name>
+                        <url>http://maven.twuni.org/libs-release</url>
+                        <layout>default</layout>
+                </repository>
+                <repository>
+                        <releases>
+                                <enabled>false</enabled>
+                        </releases>
+                        <snapshots>
+                                <enabled>true</enabled>
+                                <updatePolicy>always</updatePolicy>
+                                <checksumPolicy>warn</checksumPolicy>
+                        </snapshots>
+                        <id>twuni-snapshots</id>
+                        <name>Twuni Software Snapshots</name>
+                        <url>http://maven.twuni.org/libs-snapshot</url>
+                        <layout>default</layout>
+                </repository>
+        </repositories>
 
 	<build>
 
